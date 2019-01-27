@@ -1,0 +1,13 @@
+<div *ngIf="product; else loading">
+    <p><strong>Product:</strong> {{ product.name }}</p>
+    <p><strong>Reviews:</strong></p>
+    <div *ngFor="let review of reviews">
+            <p>{{ review.text }}</p>
+           <ngbd-rating-basic [rating]="review.stars"></ngbd-rating-basic>
+    </div>
+</div>
+<ng-template #loading>
+    <mat-spinner></mat-spinner>
+</ng-template>
+<a routerLink="/products">back to the list</a>
+
