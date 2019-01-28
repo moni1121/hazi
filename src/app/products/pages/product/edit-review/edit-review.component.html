@@ -1,0 +1,18 @@
+<h2>Edit</h2>
+<mat-dialog-content>
+    <form [formGroup]="editForm" fxLayout="column">
+        <div>
+                <ngbd-rating-basic [rating]="review.stars"></ngbd-rating-basic>
+        </div>
+        <mat-form-field>
+            <input matInput type="text" formControlName="text"  placeholder="text"  class="form-control">
+            <mat-error *ngIf="editForm.controls.text.invalid && (editForm.controls.text.dirty || editForm.controls.text.touched)">text is required.</mat-error>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <div>
+        <button mat-button mat-dialog-close>Vissza</button>
+        <button mat-flat-button color="primary" (click)="editReview()">Mentés</button>
+    </div>
+</mat-dialog-actions>
