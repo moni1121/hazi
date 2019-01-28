@@ -4,6 +4,8 @@
     <div *ngFor="let review of reviews">
             <p>{{ review.text }}</p>
            <ngbd-rating-basic [rating]="review.stars"></ngbd-rating-basic>
+            <button mat-raised-button color="primary" (click)="addItem()">New review</button>
+            <button mat-raised-button color="primary" (click)="editItem(product.id)">Edit review</button>
     </div>
 </div>
 <ng-template #loading>

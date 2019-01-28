@@ -10,7 +10,8 @@ import { HttpClientModule } from '@angular/common/http';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {StarRatingComponent} from "./component/rating/star-rating.component";
-
+import {MatIconModule} from '@angular/material/icon';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,9 @@ import {StarRatingComponent} from "./component/rating/star-rating.component";
     HttpClientModule,
     MatToolbarModule,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatIconModule,
+    MatDialogModule
   ],
   exports: [
     CommonModule,
@@ -39,7 +42,9 @@ import {StarRatingComponent} from "./component/rating/star-rating.component";
     MatProgressSpinnerModule,
     HttpClientModule,
     MatToolbarModule,
-    StarRatingComponent
+    StarRatingComponent,
+    MatIconModule,
+    MatDialogModule
   ]
 })
 export class SharedModule { }

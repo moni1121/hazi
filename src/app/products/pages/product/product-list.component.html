@@ -1,8 +1,9 @@
 <input type="text" [(ngModel)]="filter" (input)="debouncer$.next($event.target.value)" /><br />
 Filter: {{ filter }} <br />
 
-<a routerLink="/products/new">new</a>
-
+<button mat-raised-button color="primary" (click)="addItem()">
+  New product
+</button>
 <div class="table-container">
   <div class="table-loading-indicator" *ngIf="isLoading">
     <mat-spinner></mat-spinner>
@@ -11,19 +12,17 @@ Filter: {{ filter }} <br />
     <!-- Position Column -->
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      <td mat-cell *matCellDef="let element" (click)="editItem()"> {{element.name}} </td>
     </ng-container>
     <ng-container matColumnDef="stars">
         <th mat-header-cell *matHeaderCellDef>stars</th>
         <td mat-cell *matCellDef="let element"> <ngbd-rating-basic [rating]="element.avgRating"></ngbd-rating-basic></td>
-      
     </ng-container>
     <!-- Position Column -->
     <ng-container matColumnDef="buttons">
       <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let element"><a [routerLink]="['/products', element.id]">details</a></td>
+      <td mat-cell *matCellDef="let element"><a  mat-raised-button color="primary" [routerLink]="['/products', element.id]">details</a></td>
     </ng-container>
-
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 

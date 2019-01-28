@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
-import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
-
 
 @Component({templateUrl: 'register.component.html'})
 export class RegisterComponent implements OnInit {
@@ -26,7 +24,12 @@ export class RegisterComponent implements OnInit {
 
     // convenience getter for easy access to form fields
     get f() { return this.registerForm.controls; }
-
+/*
+    register() {
+          const userModel: UserModel = this.registerForm.value;
+          this.userService.register(userModel).subscribe(_ => this.dialogRef.close(true));
+      }
+*/
     onSubmit() {
         this.submitted = true;
 

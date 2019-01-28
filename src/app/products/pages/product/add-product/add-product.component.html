@@ -1,17 +1,17 @@
 <h2>Add</h2>
-<form [formGroup]="addForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-        <mat-form-field>
-            <input matInput formControlName="name"  placeholder="name"  class="form-control">
-            <mat-error *ngIf="addForm.controls.name.invalid && (addForm.controls.name.dirty || addForm.controls.name.touched)">Username is required.</mat-error>
-        </mat-form-field>
-    </div>
-    <mat-form-field>
-        <input matInput type="review" formControlName="review"  placeholder="review"  class="form-control">
-        <mat-error *ngIf="addForm.controls.review.invalid && (addForm.controls.review.dirty || addForm.controls.review.touched)">Password is required.</mat-error>
-    </mat-form-field>
-    <div class="form-group">
-        <button [disabled]="loading" class="btn btn-primary">Register</button>
-        <a [routerLink]="['/home']" class="btn btn-link">Cancel</a>
-    </div>
+<mat-dialog-content>
+    <form [formGroup]="addForm" fxLayout="column">
+        <div>
+            <mat-form-field>
+                <input matInput formControlName="name"  placeholder="name"  class="form-control">
+                <mat-error *ngIf="addForm.controls.name.invalid && (addForm.controls.name.dirty || addForm.controls.name.touched)">Username is required.</mat-error>
+            </mat-form-field>
+        </div>
 </form>
+<mat-dialog-content>
+<mat-dialog-actions align="end">
+    <div>
+        <button mat-button mat-dialog-close>Vissza</button>
+        <button mat-flat-button color="primary" (click)="addProduct()">Mentés</button>
+    </div>
+</mat-dialog-actions>

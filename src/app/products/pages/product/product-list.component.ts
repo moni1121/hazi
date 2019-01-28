@@ -3,7 +3,8 @@ import { Subject } from 'rxjs';
 import { debounceTime, takeUntil, distinctUntilChanged, filter, switchMap, map, catchError, tap } from 'rxjs/operators';
 import { ProductListModel } from 'src/app/core/models/product-list.model';
 import { ProductClientService } from '../../clients/product-client.service';
-import {MatTableDataSource} from '@angular/material';
+import {MatTableDataSource, MatDialog} from '@angular/material';
+import { AddProductComponent } from './add-product/add-product.component';
 
 @Component({
   templateUrl: './product-list.component.html'
@@ -19,7 +20,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
   products: ProductListModel[];
   dataSource;
 
-  constructor(private productClient: ProductClientService) { }
+  constructor(
+    private productService: ProductClientService,
+    private readonly dialog: MatDialog) { }
 
   ngOnInit() {
     this.loadProducts();
@@ -33,19 +36,24 @@ export class ProductListComponent implements OnInit, OnDestroy {
       .subscribe(() => this.loadProducts());
 
   }
-
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.unsubscribe();
   }
 
-  loadProducts() {
-    debugger
-    this.isLoading = true;
-    this.productClient.getProducts(this.filter).subscribe(
-      res => {
+  addItem() {
+    const dialogRef = this.dialog.open(AddProductComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
         
-        console.log(res);
+      }
+    });
+  }
+
+  loadProducts() {
+    this.isLoading = true;
+    this.productService.getProducts(this.filter).subscribe(
+      res => {
         this.products = res;
         this.products.forEach(value => {
           let szamok : number = 0;

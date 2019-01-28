@@ -57,7 +57,6 @@ export class LoginComponent {
                     this.alertService.error(error);
                     this.loading = false;
                 })))
-            this.dialogRef.close();
-        
+        this.dialogRef.close();
     }
 }

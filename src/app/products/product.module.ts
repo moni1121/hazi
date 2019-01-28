@@ -8,15 +8,17 @@ import { ProductClientService } from './clients/product-client.service';
 import { ProductRoutingModule } from './product-routing.module';
 import { FakeBackendInterceptor } from '../core/helpers/fake-backend';
 import { AddProductComponent } from './pages/product/add-product/add-product.component';
-import { EditProductComponent } from './pages/product/edit-product/edit-product.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { EditReviewComponent } from './pages/product/edit-review/edit-review.component';
+import { AddReviewComponent } from './pages/product/add-review/add-review.component';
 
 @NgModule({
   declarations: [
     ProductDetailsComponent,
     ProductListComponent,
     AddProductComponent,
-    EditProductComponent
+    EditReviewComponent,
+    AddReviewComponent
   ],
   imports: [
     SharedModule,
