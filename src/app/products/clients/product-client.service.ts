@@ -37,7 +37,7 @@ export class ProductClientService {
     return this.http.get<ProductModel>(`/product/${id}`);
   }
 
-  getReviewId(id: number): Observable<ReviewModel> {
-    return this.http.get<ReviewModel>(`/product/details${id}`);
+  getReviewId(id: number, id2: number): Observable<ReviewModel> {
+    return this.http.get<ReviewModel>(`/products/${id2}/edit/${id}`);
   }
 }

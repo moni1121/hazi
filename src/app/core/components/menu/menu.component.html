@@ -1,7 +1,6 @@
-<mat-action-list style="width:115px;">
+<mat-action-list class="back">
     <div *ngIf="isAuthenticated$ | async; else loggedOut">
-        <h4 mat-subheader>Hello {{ user }}!</h4>
-        <button mat-list-item> Profile </button>
+        <h4 mat-subheader>Hello {{ user.username }}!</h4>
         <button mat-list-item (click)="logout()"> Logout </button>
         <mat-divider></mat-divider>
     </div>

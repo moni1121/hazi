@@ -11,3 +11,7 @@ export const listMock: ProductModel[] = [
 export const detailsMocks: ProductModel[] =
     listMock.map((x: ProductListModel): ProductModel => {return x});
 
+export function getReviewId(reviewId: number, productId: number){
+    var product = detailsMocks.find(x => x.id === productId);
+
+}

@@ -12,10 +12,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {StarRatingComponent} from "./component/rating/star-rating.component";
 import {MatIconModule} from '@angular/material/icon';
 import {MatDialogModule} from '@angular/material/dialog';
+import { MenuMouseDirective } from './directives/menu-mouse.component';
 
 @NgModule({
   declarations: [
-    StarRatingComponent
+    StarRatingComponent,
+    MenuMouseDirective
   ],
   imports: [
     CommonModule,
@@ -44,7 +46,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatToolbarModule,
     StarRatingComponent,
     MatIconModule,
-    MatDialogModule
+    MatDialogModule,
+    MenuMouseDirective
   ]
 })
 export class SharedModule { }

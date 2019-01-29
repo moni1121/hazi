@@ -32,7 +32,6 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   addItem(id) {
-    debugger
     const dialogRef = this.dialog.open(AddReviewComponent, { data: { id: this.id } });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -42,8 +41,7 @@ export class ProductDetailsComponent implements OnInit {
   }
   
   editItem(id) {
-    debugger
-    const dialogRef = this.dialog.open(EditReviewComponent, { data: { id: this.id } });
+    const dialogRef = this.dialog.open(EditReviewComponent, { data: { id: id } });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         

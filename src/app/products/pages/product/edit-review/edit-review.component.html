@@ -2,10 +2,10 @@
 <mat-dialog-content>
     <form [formGroup]="editForm" fxLayout="column">
         <div>
-                <ngbd-rating-basic [rating]="review.stars"></ngbd-rating-basic>
+            <ngbd-rating-basic [rating]="review.stars"  [readonly]="false"></ngbd-rating-basic>
         </div>
         <mat-form-field>
-            <input matInput type="text" formControlName="text"  placeholder="text"  class="form-control">
+            <input matInput type="text" formControlName="text"  placeholder="text"  class="form-control" value={{review.text}}>
             <mat-error *ngIf="editForm.controls.text.invalid && (editForm.controls.text.dirty || editForm.controls.text.touched)">text is required.</mat-error>
         </mat-form-field>
     </form>

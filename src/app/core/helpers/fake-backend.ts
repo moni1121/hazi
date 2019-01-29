@@ -3,6 +3,7 @@ import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTT
 import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 import { detailsMocks, listMock } from 'src/app/products/clients/mock/mock-client.service';
+import { ReviewModel } from '../models/review.model';
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -15,10 +16,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         // wrap in delayed observable to simulate server api call
         return of(null).pipe(mergeMap(() => {
-
+debugger
             // authenticate
             if (request.url.endsWith('/users/authenticate') && request.method === 'POST') {
-                // find if any user matches login credentials
                 let filteredUsers = users.filter(user => {
                     return user.username === request.body.username && user.password === request.body.password;
                 });
@@ -42,7 +42,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
             // get users
             if (request.url.endsWith('/users') && request.method === 'GET') {
-                // check for fake auth token in header and return users if valid, this security is implemented server side in a real application
                 if (request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
                     return of(new HttpResponse({ status: 200, body: users }));
                 } else {
@@ -55,7 +54,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             if (request.url.match(/\/users\/\d+$/) && request.method === 'GET') {
                 // check for fake auth token in header and return user if valid, this security is implemented server side in a real application
                 if (request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
-                    // find user by id in users array
                     let urlParts = request.url.split('/');
                     let id = parseInt(urlParts[urlParts.length - 1]);
                     let matchedUsers = users.filter(user => { return user.id === id; });
@@ -103,23 +101,60 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 }
             }
 
-            // edit product
-            if (request.url.match(/\/products\/edit\/\d+$/) && request.method === 'PUT') {
-                // get new user object from post body
-                let product = request.body;
+            // get product
+            if (request.url.match(/\/products\/\d+\/edit\/\d+$/) && request.method === 'GET') {
+                debugger
+                const urlParts = request.url.split('/');
+                const reviewId = parseInt(urlParts[urlParts.length - 1]);
+                const productId = parseInt(urlParts[urlParts.length - 3]);
+                var re;
+                if (listMock.length != 0){
+                listMock.forEach(list => {
+                    if(list.id === productId){
+                    list.reviews.forEach(x => {
+                        if(x.id === reviewId){
+                            re = x;
+                        }
+                    })
+                }
+                })
+                if (re){
+                    return of(new HttpResponse({
+                        status: 200,
+                        body: re
+                    }));
+                }
+                else {
+                    return throwError({ error: { message: 'Not gergerge' } });
+                }
+            }
+            else {
+                return throwError({ error: { message: 'Not found' } });
+            }
+            }
 
-                product.push(product);
-
+            if (request.url.match(/\/products\/\d+\/edit\/\d+$/) && request.method === 'PUT') {
+                debugger
+                const urlParts = request.url.split('/');
+                const reviewId = parseInt(urlParts[urlParts.length - 1], 10);
+                const productId = parseInt(urlParts[urlParts.length - 3], 10);
+                listMock.forEach(list => {
+                    if(list.id === productId){
+                    list.reviews.forEach(x => {
+                        if(x.id === reviewId){
+                            x = request.body;
+                        }
+                    })
+                }
+                })
+                
                 // respond 200 OK
                 return of(new HttpResponse({ status: 200 }));
             }
 
             // register user
             if (request.url.endsWith('/products/new') && request.method === 'POST') {
-                // get new user object from post body
                 let newProduct = request.body;
-
-                // save new user
                 newProduct.id = users.length + 1;
                 listMock.push(newProduct);
 

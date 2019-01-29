@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, Inject} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterStateSnapshot } from '@angular/router';
 import { ReviewModel } from 'src/app/core/models/review.model';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -11,29 +11,35 @@ import { ProductClientService } from 'src/app/products/clients/product-client.se
 export class EditReviewComponent implements OnInit {
   editForm: FormGroup;
   review: ReviewModel = new ReviewModel();
- 
+  peroductId: number;
   submitted = false;
+  stringCut: string;
   id: number;
   constructor(
     private route: ActivatedRoute,
     private productClientService: ProductClientService,
     private formBuilder: FormBuilder,
-    private readonly dialogRef: MatDialogRef<EditReviewComponent>)
-    { }
+    private readonly dialogRef: MatDialogRef<EditReviewComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any)
+    { 
+      this.stringCut = route.snapshot['_routerState'].url;
+    }
   
 // convenience getter for easy access to form fields
   ngOnInit() {
-    debugger
-    this.id = +this.route.snapshot.paramMap.get('id');
-    debugger
+    this.peroductId = parseInt(this.stringCut.substring(this.stringCut.lastIndexOf("/")+1));
     this.productClientService
-      .getReviewId(this.id)
+      .getReviewId(this.data.id, this.peroductId)
       .subscribe(res => {
         this.review = res;
+        var v = res;
+        console.log(v);
       });
-    
+
+    console.log(this.review);
     this.editForm = this.formBuilder.group({
-      text: [this.review.text, [Validators.required, Validators.minLength(3)]]
+      'id': [this.review.id],
+      'text': [this.review.text, [Validators.required, Validators.minLength(3)]]
     });
   }
 

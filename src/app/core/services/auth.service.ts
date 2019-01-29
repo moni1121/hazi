@@ -14,10 +14,10 @@ export class AuthService {
     constructor(
         private http: HttpClient,
     ) {
-        const currentUsername = localStorage.getItem('currentUser');
-        const isAuthenticated = !!currentUsername;
+        const currentUser = localStorage.getItem('currentUser');
+        const isAuthenticated = !!currentUser;
         this.isAuthenticated = new BehaviorSubject<boolean>(isAuthenticated);
-        this.currentUser = new BehaviorSubject<UserModel>(isAuthenticated ? { username: currentUsername, password: currentUsername} : null);
+        this.currentUser = new BehaviorSubject<UserModel>(isAuthenticated ? { username: currentUser['name'], password: currentUser['password']} : null);
     }
 
     get IsAuthenticated$(): Observable<boolean> {

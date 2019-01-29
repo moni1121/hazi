@@ -2,7 +2,7 @@
 <mat-dialog-content>
     <form [formGroup]="addForm" fxLayout="column">
         <div>
-            <ngbd-rating-basic [rating]="review.stars"></ngbd-rating-basic>
+            <ngbd-rating-basic [rating]="review.stars" [readonly]="false"></ngbd-rating-basic>
         </div>
         <mat-form-field>
             <input matInput type="text" formControlName="text"  placeholder="text"  class="form-control">

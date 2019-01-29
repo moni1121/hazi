@@ -29,6 +29,7 @@ export class AddReviewComponent implements OnInit {
 
     createFormGroup(){
         return this.formBuilder.group({
+            id: [this.review.id],
             stars: [this.review.stars, [Validators.required, Validators.minLength(3)]],
             text: ['', [Validators.required, Validators.minLength(3)]]
         });

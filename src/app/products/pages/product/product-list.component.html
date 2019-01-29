@@ -16,7 +16,7 @@ Filter: {{ filter }} <br />
     </ng-container>
     <ng-container matColumnDef="stars">
         <th mat-header-cell *matHeaderCellDef>stars</th>
-        <td mat-cell *matCellDef="let element"> <ngbd-rating-basic [rating]="element.avgRating"></ngbd-rating-basic></td>
+        <td mat-cell *matCellDef="let element"> <ngbd-rating-basic [rating]="element.avgRating" [readonly]="true"></ngbd-rating-basic></td>
     </ng-container>
     <!-- Position Column -->
     <ng-container matColumnDef="buttons">
