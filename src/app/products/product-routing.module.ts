@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: ':id', component: ProductDetailsComponent, canActivate: [Auth] },
   { path: 'new', component: AddProductComponent },
   { path: 'edit/:id', component: EditReviewComponent },
-  { path: 'add', component: AddReviewComponent }
+  { path: 'add/id:', component: AddReviewComponent }
 
 ];
 

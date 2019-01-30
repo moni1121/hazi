@@ -101,7 +101,7 @@ debugger
                 }
             }
 
-            // get product
+            // edit product
             if (request.url.match(/\/products\/\d+\/edit\/\d+$/) && request.method === 'GET') {
                 debugger
                 const urlParts = request.url.split('/');
@@ -133,7 +133,8 @@ debugger
             }
             }
 
-            if (request.url.match(/\/products\/\d+\/edit\/\d+$/) && request.method === 'PUT') {
+            // add review
+            if (request.url.match(/\/products\/\d+\/add\/\d+$/) && request.method === 'POST') {
                 debugger
                 const urlParts = request.url.split('/');
                 const reviewId = parseInt(urlParts[urlParts.length - 1], 10);

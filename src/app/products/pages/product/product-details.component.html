@@ -10,7 +10,7 @@
 <ng-template #loading>
     <mat-spinner></mat-spinner>
 </ng-template>
-<button mat-raised-button color="primary" (click)="addItem()">New review</button>
+<button mat-raised-button color="primary" (click)="addItem(product.id)">New review</button>
 
 <a routerLink="/products">back to the list</a>
 

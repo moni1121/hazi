@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ProductClientService } from 'src/app/products/clients/product-client.service';
 import { ReviewModel } from 'src/app/core/models/review.model';
 
@@ -11,6 +11,8 @@ export class AddReviewComponent implements OnInit {
     loading = false;
     submitted = false;
     review: ReviewModel = new ReviewModel();
+    stringCut: string;
+    id: number;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -18,25 +20,27 @@ export class AddReviewComponent implements OnInit {
         private readonly dialogRef: MatDialogRef<AddReviewComponent>,
         private productService: ProductClientService,
         private route: ActivatedRoute,
-        ) { }
+        @Inject(MAT_DIALOG_DATA) public data: any)
+        {
+          this.stringCut = route.snapshot['_routerState'].url;
+        } 
 
     ngOnInit() {
         this.addForm = this.createFormGroup(); 
         this.review.stars = 0;
-        const id = +this.route.snapshot.paramMap.get('id');
-        console.log(id);
+        this.id = +this.route.snapshot.paramMap.get('id');
     }
 
     createFormGroup(){
         return this.formBuilder.group({
-            id: [this.review.id],
-            stars: [this.review.stars, [Validators.required, Validators.minLength(3)]],
-            text: ['', [Validators.required, Validators.minLength(3)]]
+            'id': [this.review.id],
+            'stars': [this.review.stars, [Validators.required, Validators.minLength(3)]],
+            'text': ['', [Validators.required, Validators.minLength(3)]]
         });
     }
 
     addReview() {
             const newReview: ReviewModel = this.addForm.value;
-            this.productService.insertReview(newReview).subscribe(_ => this.dialogRef.close(true));
+            this.productService.insertReview(this.id, newReview).subscribe(_ => this.dialogRef.close(true));
     }
 }

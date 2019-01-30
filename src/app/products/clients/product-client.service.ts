@@ -25,12 +25,12 @@ export class ProductClientService {
     return this.http.post<ProductModel>(`/products/new`, { product })
   } 
     
-  insertReview(review: ReviewModel){
-    return this.http.post<ReviewModel>(`/products/details/new`, { review })
+  insertReview(id: number, review: ReviewModel): Observable<ReviewModel> {
+    return this.http.post<ReviewModel>(`/products/${id}/add`, review);
   }
 
-  update(product: ReviewModel) {
-    return this.http.put<ReviewModel>(`/products/details/edit/${product.id}`, product);
+  update(review: ReviewModel) {
+    return this.http.put<ReviewModel>(`/products/details/edit/${review.id}`, review);
   }
   
   getProductDetails(id: number): Observable<ProductModel> {
