@@ -6,7 +6,7 @@ export const listMock: ProductModel[] = [
     { id: 2, name: 'valami1',  reviews: [{id: 1, stars: 1, text: 'nem jó'}]},
     { id: 3, name: 'valami2',  reviews: [{id: 1, stars: 7, text: 'megfelelt'}]},
     { id: 4, name: 'valami3',  reviews: [{id: 1, stars: 6, text: 'megfelelt'}]},
-    { id: 5, name: 'valami4',  reviews: [{id: 1, stars: 3, text: 'elmegy'}]},
+    { id: 5, name: 'valami4',  reviews: []},
 ];
 export const detailsMocks: ProductModel[] =
     listMock.map((x: ProductListModel): ProductModel => {return x});

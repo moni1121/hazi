@@ -11,7 +11,7 @@ import { ProductClientService } from 'src/app/products/clients/product-client.se
 export class EditReviewComponent implements OnInit {
   editForm: FormGroup;
   review: ReviewModel = new ReviewModel();
-  peroductId: number;
+  productId: number;
   submitted = false;
   stringCut: string;
   id: number;
@@ -27,16 +27,15 @@ export class EditReviewComponent implements OnInit {
   
 // convenience getter for easy access to form fields
   ngOnInit() {
-    this.peroductId = parseInt(this.stringCut.substring(this.stringCut.lastIndexOf("/")+1));
+    this.productId = parseInt(this.stringCut.substring(this.stringCut.lastIndexOf("/")+1));
     this.productClientService
-      .getReviewId(this.data.id, this.peroductId)
+      .getReviewId(this.data.id, this.productId)
       .subscribe(res => {
         this.review = res;
         var v = res;
         console.log(v);
       });
 
-    console.log(this.review);
     this.editForm = this.formBuilder.group({
       'id': [this.review.id],
       'text': [this.review.text, [Validators.required, Validators.minLength(3)]]

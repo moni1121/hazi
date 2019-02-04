@@ -16,7 +16,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         // wrap in delayed observable to simulate server api call
         return of(null).pipe(mergeMap(() => {
-debugger
             // authenticate
             if (request.url.endsWith('/users/authenticate') && request.method === 'POST') {
                 let filteredUsers = users.filter(user => {
@@ -24,7 +23,6 @@ debugger
                 });
 
                 if (filteredUsers.length) {
-                    // if login details are valid return 200 OK with user details and fake jwt token
                     let user = filteredUsers[0];
                     let body = {
                         username: user.username,
@@ -35,7 +33,6 @@ debugger
 
                     return of(new HttpResponse({ status: 200, body: body }));
                 } else {
-                    // else return 400 bad request
                     return throwError({ error: { message: 'Username or password is incorrect' } });
                 }
             }
@@ -45,14 +42,12 @@ debugger
                 if (request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
                     return of(new HttpResponse({ status: 200, body: users }));
                 } else {
-                    // return 401 not authorised if token is null or invalid
                     return throwError({ error: { message: 'Unauthorised' } });
                 }
             }
 
             // get user by id
             if (request.url.match(/\/users\/\d+$/) && request.method === 'GET') {
-                // check for fake auth token in header and return user if valid, this security is implemented server side in a real application
                 if (request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
                     let urlParts = request.url.split('/');
                     let id = parseInt(urlParts[urlParts.length - 1]);
@@ -61,23 +56,18 @@ debugger
 
                     return of(new HttpResponse({ status: 200, body: user }));
                 } else {
-                    // return 401 not authorised if token is null or invalid
                     return throwError({ error: { message: 'Unauthorised' } });
                 }
             }
 
             // register user
             if (request.url.endsWith('/users/register') && request.method === 'POST') {
-                // get new user object from post body
                 let newUser = request.body;
 
-                // validation
                 let duplicateUser = users.filter(user => { return user.username === newUser.username; }).length;
                 if (duplicateUser) {
                     return throwError({ error: { message: 'Username "' + newUser.username + '" is already taken' } });
                 }
-
-                // save new user
                 newUser.id = users.length + 1;
                 users.push(newUser);
                 localStorage.setItem('users', JSON.stringify(users));
@@ -103,67 +93,60 @@ debugger
 
             // edit product
             if (request.url.match(/\/products\/\d+\/edit\/\d+$/) && request.method === 'GET') {
-                debugger
                 const urlParts = request.url.split('/');
                 const reviewId = parseInt(urlParts[urlParts.length - 1]);
                 const productId = parseInt(urlParts[urlParts.length - 3]);
-                var re;
-                if (listMock.length != 0){
-                listMock.forEach(list => {
+                var review;
+                if (detailsMocks.length != 0){
+                    detailsMocks.forEach(list => {
                     if(list.id === productId){
                     list.reviews.forEach(x => {
                         if(x.id === reviewId){
-                            re = x;
+                            review = x;
                         }
                     })
                 }
                 })
-                if (re){
+                if (review){
                     return of(new HttpResponse({
                         status: 200,
-                        body: re
+                        body: review
                     }));
                 }
                 else {
                     return throwError({ error: { message: 'Not gergerge' } });
                 }
             }
-            else {
-                return throwError({ error: { message: 'Not found' } });
-            }
             }
 
             // add review
-            if (request.url.match(/\/products\/\d+\/add\/\d+$/) && request.method === 'POST') {
-                debugger
+            if (request.url.match(/\/products\/\d+\/add$/) && request.method === 'POST') {
+                let newReview = request.body;
                 const urlParts = request.url.split('/');
-                const reviewId = parseInt(urlParts[urlParts.length - 1], 10);
-                const productId = parseInt(urlParts[urlParts.length - 3], 10);
-                listMock.forEach(list => {
+                const productId = parseInt(urlParts[urlParts.length - 2], 10);
+                var newReviewId; 
+                detailsMocks.forEach(list => {
                     if(list.id === productId){
-                    list.reviews.forEach(x => {
-                        if(x.id === reviewId){
-                            x = request.body;
-                        }
-                    })
+                        newReviewId = list.reviews.length + 1
+                    }
+                });
+                newReview.id = newReviewId;
+                detailsMocks.forEach(list => {
+                    if(list.id === productId){
+                    list.reviews.push(newReview);
+                return of(new HttpResponse({ status: 200, body: newReview }));
                 }
-                })
-                
-                // respond 200 OK
-                return of(new HttpResponse({ status: 200 }));
+                return next.handle(request);
+            })
             }
 
             // register user
             if (request.url.endsWith('/products/new') && request.method === 'POST') {
                 let newProduct = request.body;
-                newProduct.id = users.length + 1;
-                listMock.push(newProduct);
-
-                // respond 200 OK
-                return of(new HttpResponse({ status: 200 }));
+                newProduct.id = detailsMocks.length + 1;
+                detailsMocks.push(newProduct);
+                return of(new HttpResponse({ status: 200, body: newProduct }));
             }
-
-            // pass through any requests not handled above
             return next.handle(request);
             
         }))
